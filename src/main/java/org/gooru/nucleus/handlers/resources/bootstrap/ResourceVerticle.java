@@ -19,8 +19,14 @@ public class ResourceVerticle  extends AbstractVerticle {
       System.out.println("Received message: " + message.body());
       // Now send back reply
       message.reply("Resource request received");
+    }).completionHandler(result -> {
+      if (result.succeeded()) {
+        LOG.info("Resource end point ready to listen");        
+      } else {
+        LOG.error("Error registering the resource handler. Halting the Resource machinery");
+        Runtime.getRuntime().halt(1);
+      }
     });
-    LOG.info("Resource end point ready to listen");
   }
 
 
